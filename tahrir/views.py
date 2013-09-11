@@ -46,7 +46,6 @@ from sqlalchemy.orm import joinedload
 from sqlalchemy.sql.expression import func
 
 
-
 def _get_user(request, id_or_nickname):
     '''Attempt to get a user by their id or nickname, returning None if
        we fail.'''
@@ -352,7 +351,7 @@ def leaderboard_json(request):
         dict(user_to_rank[p].items() + {'nickname': p.nickname}.items())
         for p in leaderboard]
 
-    return { 'leaderboard': ret }
+    return {'leaderboard': ret}
 
 
 @view_config(route_name='about', renderer='about.mak')
@@ -360,7 +359,6 @@ def about(request):
     return dict(
         content=load_docs(request, 'about'),
         auth_principals=effective_principals(request))
-
 
 
 @view_config(route_name='explore', renderer='explore.mak')
@@ -533,6 +531,7 @@ def badge(request):
             badge_assertions=badge_assertions,
             percent_earned=percent_earned,
             )
+
 
 def _badge_json_generator(request, badge):
     try:
@@ -800,7 +799,8 @@ def _user_json_generator(request, user):
     for assertion in user.assertions:
         assertions.append(
             dict(
-                {'issued': float(assertion.issued_on.strftime('%s'))}.items() + \
+                {'issued': float(
+                           assertion.issued_on.strftime('%s'))}.items() + \
                 _badge_json_generator(request, assertion.badge).items()))
 
     return {
@@ -1075,6 +1075,8 @@ def _load_docs(directory, endpoint):
 
 
 htmldocs = {}
+
+
 def load_docs(request, key):
     possible_keys = ['about', 'footer']
 
